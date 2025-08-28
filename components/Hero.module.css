@@ -1,0 +1,20 @@
+@keyframes glowingBorder {
+  0% {
+    box-shadow: 0 0 0px rgba(33, 150, 243, 0.0);
+    border-color: rgba(33, 150, 243, 0.0);
+  }
+  50% {
+    box-shadow: 0 0 25px 8px rgba(33, 150, 243, 0.6);
+    border-color: rgba(33, 150, 243, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0px rgba(33, 150, 243, 0.0);
+    border-color: rgba(33, 150, 243, 0.0);
+  }
+}
+
+.glowEffect {
+  animation: glowingBorder 5s ease-in-out;
+  border: 2px solid rgba(33, 150, 243, 0.3);
+  border-radius: 12px;
+}
