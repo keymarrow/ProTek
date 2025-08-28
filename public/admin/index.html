@@ -28,11 +28,15 @@
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on('init', (user) => {
           if (!user) {
+            // Prompt login to avoid silent waiting spinner
+            window.netlifyIdentity.open('login');
             window.netlifyIdentity.on('login', () => {
               window.location.href = '/admin/';
             });
           }
         });
+        // If widget not yet initialized, initialize to ensure events fire
+        window.netlifyIdentity.init();
       }
     </script>
   </body>
