@@ -2,14 +2,12 @@ import * as React from 'react';
 import { getAllPosts, getPost } from '../../../../lib/posts';
 import BlogPostClient from '../../../../components/BlogPostClient';
 
-type PageProps = { params: { slug: string } };
-
 export function generateStaticParams() {
   const list = getAllPosts();
   return list.map((p) => ({ slug: p.slug }));
 }
 
-export default function BlogPostPage({ params }: PageProps) {
+export default function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = getPost(params.slug);
   if (!post) return null;
   const list = getAllPosts();
