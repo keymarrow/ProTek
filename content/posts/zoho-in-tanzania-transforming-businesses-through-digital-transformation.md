@@ -1,8 +1,9 @@
 ---
 title: "Zoho in Tanzania: Transforming Businesses Through Digital Transformation"
-date: 2025-08-28T19:07:00.000+03:00
+date: 2025-08-26T00:00:00.000+03:00
 tags:
   - Zoho
+  - ZohoTanzania
 category: Zoho
 cover: https://www.zoho.com/sites/zweb/images/zoho_general_pages/zh-homev2-banner.png
 excerpt: ""
