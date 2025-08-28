@@ -47,8 +47,12 @@
             if (user) {
               initCMS();
             } else {
-              // Prompt login to avoid waiting forever
-              window.netlifyIdentity.open('login');
+              if (location.hash && location.hash.includes('recovery_token=')) {
+                window.netlifyIdentity.open('recovery');
+              } else {
+                // Prompt login to avoid waiting forever
+                window.netlifyIdentity.open('login');
+              }
             }
           });
           window.netlifyIdentity.on('login', () => {
