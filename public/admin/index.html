@@ -19,7 +19,7 @@
         }
       })();
     </script>
-    <!-- Netlify Identity widget for Git Gateway login -->
+    <!-- Netlify Identity widget (used only for Git Gateway) -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <!-- Tell Decap we will initialize manually -->
     <script>window.CMS_MANUAL_INIT = true;</script>
@@ -29,20 +29,25 @@
       (function () {
         const isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
         const params = new URLSearchParams(location.search);
-        const configPath = params.get('config') || '/admin/config.yml';
+        // Default to GitHub backend in production; local is handled by the preload script
+        const defaultConfig = isLocal ? '/admin/config.local.yml' : '/admin/config.github.yml';
+        const configPath = params.get('config') || defaultConfig;
         const noAuto = params.get('noauto') === '1';
 
         function initCMS() {
           CMS.init({ config: configPath });
         }
 
-        if (isLocal) {
-          // On localhost, use the local config and skip Identity
+        // If using Git Gateway config in production, gate on Netlify Identity; otherwise init immediately
+        const isGitGatewayConfig = /\/admin\/config\.yml$/.test(configPath);
+
+        if (isLocal || !isGitGatewayConfig) {
+          // Local or non-Git-Gateway backends (e.g., GitHub App): no Identity gating
           initCMS();
           return;
         }
 
-        // In production, wait for Netlify Identity so Git Gateway auth works
+        // Production + Git Gateway flow
         if (window.netlifyIdentity) {
           window.netlifyIdentity.on('init', (user) => {
             if (user) {
