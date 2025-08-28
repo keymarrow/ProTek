@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ProTek CMS</title>
+    <link rel="preconnect" href="https://unpkg.com" />
+  </head>
+  <body>
+    <!-- Auto-use local config when running on localhost -->
+    <script>
+      (function () {
+        var isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
+        var hasConfig = new URLSearchParams(location.search).has('config');
+        if (isLocal && !hasConfig) {
+          var url = new URL(location.href);
+          url.searchParams.set('config', '/cms/config.local.yml');
+          location.replace(url.toString());
+        }
+      })();
+    </script>
+    <!-- Netlify Identity widget (used only for Git Gateway) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Tell Decap we will initialize manually -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <!-- Decap CMS UI -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      (function () {
+        const isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
+        const params = new URLSearchParams(location.search);
+        // Default to GitHub backend in production; local is handled by the preload script
+        const defaultConfig = isLocal ? '/cms/config.local.yml' : '/cms/config.github.yml';
+        const configPath = params.get('config') || defaultConfig;
+        const noAuto = params.get('noauto') === '1';
+
+        function initCMS() {
+          CMS.init({ config: configPath });
+        }
+
+        // If using Git Gateway config in production, gate on Netlify Identity; otherwise init immediately
+        const isGitGatewayConfig = /\/cms\/config\.yml$/.test(configPath);
+
+        if (isLocal || !isGitGatewayConfig) {
+          // Local or non-Git-Gateway backends (e.g., GitHub App): no Identity gating
+          initCMS();
+          return;
+        }
+
+        // Production + Git Gateway flow
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.on('init', (user) => {
+            if (user) {
+              initCMS();
+            } else {
+              if (location.hash && location.hash.includes('recovery_token=')) {
+                window.netlifyIdentity.open('recovery');
+              } else if (!noAuto) {
+                // Prompt login to avoid waiting forever (unless disabled by ?noauto=1)
+                window.netlifyIdentity.open('login');
+              } else {
+                initCMS();
+              }
+            }
+          });
+          window.netlifyIdentity.on('login', () => {
+            initCMS();
+          });
+          window.netlifyIdentity.on('logout', () => {
+            // After logout, prompt login again
+            window.netlifyIdentity.open('login');
+          });
+          window.netlifyIdentity.init();
+        } else {
+          // Fallback: initialize CMS even if Identity didn't load (helps diagnose CDN blockers)
+          initCMS();
+        }
+      })();
+    </script>
+  </body>
+  </html>
+

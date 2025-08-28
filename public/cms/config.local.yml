@@ -1,0 +1,21 @@
+backend:
+  name: test-repo
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: Posts
+    folder: content/posts
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: title, label: Title }
+      - { name: date, label: Date, widget: datetime }
+      - { name: tags, label: Tags, widget: list }
+      - { name: category, label: Category }
+      - { name: cover, label: Cover Image, widget: image, required: false }
+      - { name: excerpt, label: Excerpt, widget: text, required: false }
+      - { name: body, label: Body, widget: markdown }
+
