@@ -1,14 +1,18 @@
 backend:
-  name: git-gateway
+  name: github
+  # Required: change to your repo slug "owner/repo"
+  repo: YOUR_GITHUB_OWNER/YOUR_REPO
   branch: main
-
-# Only allow authenticated users with these roles to access the CMS
-roles:
-  - admin
-  - editor
+  # Optional: if using GitHub App authorization, leave clientId unset; for legacy OAuth set:
+  # client_id: YOUR_GITHUB_OAUTH_APP_CLIENT_ID
 
 media_folder: public/uploads
 public_folder: /uploads
+
+# Optional: enforce Identity roles if you proxy auth through Netlify Identity
+roles:
+  - admin
+  - editor
 
 collections:
   - name: posts
@@ -24,3 +28,4 @@ collections:
       - { name: cover, label: Cover Image, widget: image, required: false }
       - { name: excerpt, label: Excerpt, widget: text, required: false }
       - { name: body, label: Body, widget: markdown }
+
