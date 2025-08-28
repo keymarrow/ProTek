@@ -1,10 +1,10 @@
 backend:
   name: github
-  # Required: change to your repo slug "owner/repo"
-  repo: YOUR_GITHUB_OWNER/YOUR_REPO
+  # GitHub App backend
+  repo: keymarrow/ProTek
   branch: main
-  # Optional: if using GitHub App authorization, leave clientId unset; for legacy OAuth set:
-  # client_id: YOUR_GITHUB_OAUTH_APP_CLIENT_ID
+  app_id: 1859205
+  # For GitHub OAuth (legacy), use client_id/base_url/auth_endpoint instead of app_id
 
 media_folder: public/uploads
 public_folder: /uploads
@@ -28,4 +28,3 @@ collections:
       - { name: cover, label: Cover Image, widget: image, required: false }
       - { name: excerpt, label: Excerpt, widget: text, required: false }
       - { name: body, label: Body, widget: markdown }
-
