@@ -19,7 +19,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import NextLink from 'next/link';
 import type { PostMeta } from './lib/posts';
 
-function PostCard({ post }: { post: { id: string; title: string; excerpt: string; date: string; tags: string[] } }) {
+function PostCard({
+  post,
+}: {
+  post: { id: string; title: string; excerpt: string; date: string; tags: string[]; cover?: string };
+}) {
   return (
     <Card variant="outlined" sx={{ height: '100%', display: 'flex' }}>
       <CardActionArea
@@ -28,16 +32,31 @@ function PostCard({ post }: { post: { id: string; title: string; excerpt: string
         sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', height: '100%' }}
       >
         <Box sx={{ p: 2 }}>
-          <Box
-            aria-hidden
-            sx={{
-              height: 180,
-              borderRadius: 2,
-              bgcolor: 'action.hover',
-              background: (theme) =>
-                `linear-gradient(135deg, ${theme.palette.primary.light}22, ${theme.palette.primary.main}22)`,
-            }}
-          />
+          {post.cover ? (
+            <Box
+              component="img"
+              src={post.cover}
+              alt=""
+              sx={{
+                width: '100%',
+                height: 180,
+                objectFit: 'cover',
+                borderRadius: 2,
+                boxShadow: 1,
+              }}
+            />
+          ) : (
+            <Box
+              aria-hidden
+              sx={{
+                height: 180,
+                borderRadius: 2,
+                bgcolor: 'action.hover',
+                background: (theme) =>
+                  `linear-gradient(135deg, ${theme.palette.primary.light}22, ${theme.palette.primary.main}22)`,
+              }}
+            />
+          )}
         </Box>
         <CardContent sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
@@ -109,7 +128,16 @@ export default function BlogPage({ allPosts }: { allPosts: PostMeta[] }) {
         >
           {filtered.map((p) => (
             <Box key={p.slug} sx={{ display: 'flex' }}>
-              <PostCard post={{ id: p.slug, title: p.title, excerpt: p.excerpt, date: p.date, tags: p.tags }} />
+              <PostCard
+                post={{
+                  id: p.slug,
+                  title: p.title,
+                  excerpt: p.excerpt,
+                  date: p.date,
+                  tags: p.tags,
+                  cover: p.cover,
+                }}
+              />
             </Box>
           ))}
         </Box>
