@@ -6,7 +6,8 @@ tags:
   - ZohoTanzania
 category: Zoho
 cover: https://www.zoho.com/sites/zweb/images/zoho_general_pages/zh-homev2-banner.png
-excerpt: ""
+excerpt: "Zoho is a global provider of cloud-based software, offering over 50
+  applications "
 ---
 **Introduction**
 
