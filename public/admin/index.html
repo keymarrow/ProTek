@@ -30,6 +30,7 @@
         const isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
         const params = new URLSearchParams(location.search);
         const configPath = params.get('config') || '/admin/config.yml';
+        const noAuto = params.get('noauto') === '1';
 
         function initCMS() {
           CMS.init({ config: configPath });
@@ -49,9 +50,11 @@
             } else {
               if (location.hash && location.hash.includes('recovery_token=')) {
                 window.netlifyIdentity.open('recovery');
-              } else {
-                // Prompt login to avoid waiting forever
+              } else if (!noAuto) {
+                // Prompt login to avoid waiting forever (unless disabled by ?noauto=1)
                 window.netlifyIdentity.open('login');
+              } else {
+                initCMS();
               }
             }
           });
