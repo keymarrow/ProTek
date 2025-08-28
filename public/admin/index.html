@@ -21,22 +21,35 @@
     </script>
     <!-- Netlify Identity widget for Git Gateway login -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <!-- Tell Decap we will initialize manually -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
     <!-- Decap CMS UI -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
-      // Optional: after login, reload into the admin UI
+      function initCMS() {
+        // Always use the production config in production
+        CMS.init({ config: '/admin/config.yml' });
+      }
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on('init', (user) => {
-          if (!user) {
-            // Prompt login to avoid silent waiting spinner
+          if (user) {
+            initCMS();
+          } else {
+            // Prompt login to avoid waiting forever
             window.netlifyIdentity.open('login');
-            window.netlifyIdentity.on('login', () => {
-              window.location.href = '/admin/';
-            });
           }
         });
-        // If widget not yet initialized, initialize to ensure events fire
+        window.netlifyIdentity.on('login', () => {
+          initCMS();
+        });
+        window.netlifyIdentity.on('logout', () => {
+          // After logout, prompt login again
+          window.netlifyIdentity.open('login');
+        });
         window.netlifyIdentity.init();
+      } else {
+        // Fallback: initialize CMS even if Identity didn't load (helps diagnose CDN blockers)
+        initCMS();
       }
     </script>
   </body>
