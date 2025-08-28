@@ -1,10 +1,16 @@
 ---
 title: How to Use Reddit to Find Customers Without Breaking Self‑Promotion Rules
 date: 2024-05-26
-tags: [mega-guide, reddit, content-distribution, growth, marketing]
+tags:
+  - mega-guide
+  - reddit
+  - content-distribution
+  - growth
+  - marketing
 category: Growth Hacking
-cover: /image1.png
-excerpt: Reddit is a goldmine for connecting with your ideal customers — if you know how to tap it correctly.
+cover: /uploads/zoho-image1.avif
+excerpt: Reddit is a goldmine for connecting with your ideal customers — if you
+  know how to tap it correctly.
 ---
 
 ## Set up listening
