@@ -1,3 +1,4 @@
+"use client";
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -51,8 +52,8 @@ export default function AppAppBar() {
         <StyledToolbar variant="dense" disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <Sitemark />
-            {/* <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Button variant="text" color="info" size="small">
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 1.5 }}>
+              {/* <Button variant="text" color="info" size="small">
                 Features
               </Button>
               <Button variant="text" color="info" size="small">
@@ -66,11 +67,18 @@ export default function AppAppBar() {
               </Button>
               <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
                 FAQ
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
+              </Button> */}
+              <Button
+                variant="text"
+                color="info"
+                size="small"
+                sx={{ minWidth: 0, fontSize: '1rem', fontWeight: 600 }}
+                component="a"
+                href="/blog/"
+              >
                 Blog
               </Button>
-            </Box> */}
+            </Box>
 
           </Box>
           <Box

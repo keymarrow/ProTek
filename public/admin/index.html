@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ProTek CMS</title>
+    <link rel="preconnect" href="https://unpkg.com" />
+  </head>
+  <body>
+    <!-- Auto-use local config when running on localhost -->
+    <script>
+      (function () {
+        var isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
+        var hasConfig = new URLSearchParams(location.search).has('config');
+        if (isLocal && !hasConfig) {
+          var url = new URL(location.href);
+          url.searchParams.set('config', '/admin/config.local.yml');
+          location.replace(url.toString());
+        }
+      })();
+    </script>
+    <!-- Decap CMS UI -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </body>
+</html>
