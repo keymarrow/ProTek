@@ -27,12 +27,12 @@ function parseFrontMatter(src: string): { data: any; content: string } {
     const idx = line.indexOf(':');
     if (idx === -1) continue;
     const key = line.slice(0, idx).trim();
-    let value = line.slice(idx + 1).trim();
+    let value: any = line.slice(idx + 1).trim();
     if (value.startsWith('[') && value.endsWith(']')) {
       value = value
         .slice(1, -1)
         .split(',')
-        .map((s) => s.trim().replace(/^['"]|['"]$/g, ''))
+        .map((s: string) => s.trim().replace(/^['"]|['"]$/g, ''))
         .filter(Boolean);
     } else {
       value = value.replace(/^['"]|['"]$/g, '');
@@ -134,4 +134,3 @@ export function getPost(slug: string): PostFull | undefined {
   const html = markdownToHtml(content);
   return { ...meta, markdown: content, html };
 }
-

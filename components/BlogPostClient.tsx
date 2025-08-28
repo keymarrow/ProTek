@@ -55,7 +55,7 @@ export default function BlogPostClient({ post, prev, next, html }: { post: Post;
           <Box sx={{ '& img': { width: '100%', borderRadius: 2, boxShadow: 1 }, '& p': { lineHeight: 1.8 } }} dangerouslySetInnerHTML={{ __html: html }} />
         ) : (
           <Box sx={{ display: 'grid', gap: 2 }}>
-            {post.content.map((block, i) => {
+            {(post.content ?? []).map((block, i) => {
               if (block.type === 'p') {
                 return (
                   <Typography key={i} component="p" sx={{ lineHeight: 1.8 }}>
