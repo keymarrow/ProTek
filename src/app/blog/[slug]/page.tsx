@@ -23,5 +23,5 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     tags: post.tags,
     category: post.category,
     content: [],
-  }} prev={prev && { id: prev.slug, title: prev.title }} next={next && { id: next.slug, title: next.title }} html={post.html} />;
+  }} prev={prev && { id: prev.slug, title: prev.title, cover: prev.cover }} next={next && { id: next.slug, title: next.title, cover: next.cover }} html={post.html} />;
 }

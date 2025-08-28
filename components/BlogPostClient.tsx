@@ -27,7 +27,7 @@ type Post = {
   content?: any[];
 };
 
-type NavPost = { id: string; title: string };
+type NavPost = { id: string; title: string; cover?: string };
 
 export default function BlogPostClient({ post, prev, next, html }: { post: Post; prev?: NavPost; next?: NavPost; html?: string }) {
   return (
@@ -99,23 +99,35 @@ export default function BlogPostClient({ post, prev, next, html }: { post: Post;
             gap: 2,
           }}
         >
-          {[prev, next].filter(Boolean).map((p) => (
-            <Card key={(p as NavPost).id} variant="outlined" sx={{ height: '100%', display: 'flex' }}>
-              <CardActionArea component={NextLink} href={`/blog/${(p as NavPost).id}/`} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', height: '100%' }}>
-                <Box sx={{ p: 2 }}>
-                  <Box aria-hidden sx={{ height: 120, borderRadius: 2, bgcolor: 'action.hover' }} />
-                </Box>
-                <CardContent sx={{ pt: 0 }}>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }} gutterBottom>
-                    {(p as NavPost).title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Read Full Story
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
+          {[prev, next].filter(Boolean).map((p) => {
+            const np = p as NavPost;
+            return (
+              <Card key={np.id} variant="outlined" sx={{ height: '100%', display: 'flex' }}>
+                <CardActionArea component={NextLink} href={`/blog/${np.id}/`} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', height: '100%' }}>
+                  <Box sx={{ p: 2 }}>
+                    {np.cover ? (
+                      <Box
+                        component="img"
+                        src={np.cover}
+                        alt=""
+                        sx={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 2, boxShadow: 1 }}
+                      />
+                    ) : (
+                      <Box aria-hidden sx={{ height: 120, borderRadius: 2, bgcolor: 'action.hover' }} />
+                    )}
+                  </Box>
+                  <CardContent sx={{ pt: 0 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }} gutterBottom>
+                      {np.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Read Full Story
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            );
+          })}
         </Box>
       </Container>
       <Divider />
