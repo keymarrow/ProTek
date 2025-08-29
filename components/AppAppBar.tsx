@@ -13,6 +13,7 @@ import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Sitemark from './SitemarkIcon';
+import NextLink from 'next/link';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
@@ -155,9 +156,11 @@ export default function AppAppBar() {
                 <MenuItem>Testimonials</MenuItem>
                 <MenuItem>Highlights</MenuItem>
                 <MenuItem>Pricing</MenuItem>
-                <MenuItem>FAQ</MenuItem>
-                <MenuItem>Blog</MenuItem>
-                <Divider sx={{ my: 3 }} /> */}
+                <MenuItem>FAQ</MenuItem> */}
+                <MenuItem component={NextLink} href="/blog/" onClick={toggleDrawer(false)}>
+                  Blog
+                </MenuItem>
+                <Divider sx={{ my: 3 }} />
                 <MenuItem>
                   <Button color="primary" variant="text" size="small">
                   zoho@protek.co.tz

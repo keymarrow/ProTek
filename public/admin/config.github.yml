@@ -22,7 +22,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { name: title, label: Title }
-      - { name: date, label: Date, widget: datetime }
+      - { name: date, label: Date, widget: date }
       - { name: tags, label: Tags, widget: list }
       - { name: category, label: Category }
       - { name: cover, label: Cover Image, widget: image, required: false }

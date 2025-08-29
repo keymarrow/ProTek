@@ -15,6 +15,18 @@ export type PostFull = PostMeta & { markdown: string; html: string };
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'posts');
 
+function dateOnly(input: any): string {
+  if (typeof input === 'string') {
+    const m = input.match(/\d{4}-\d{2}-\d{2}/);
+    if (m) return m[0];
+  }
+  try {
+    const d = new Date(input);
+    if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+  } catch {}
+  return new Date().toISOString().slice(0, 10);
+}
+
 function parseFrontMatter(src: string): { data: any; content: string } {
   const fmStart = src.indexOf('---');
   if (fmStart !== 0) return { data: {}, content: src };
@@ -105,7 +117,7 @@ export function getAllPosts(): PostMeta[] {
       slug,
       title: data.title || slug,
       excerpt: data.excerpt || content.split(/\n\n/)[0].slice(0, 180) + '…',
-      date: data.date || new Date().toISOString().slice(0, 10),
+      date: data.date ? dateOnly(data.date) : new Date().toISOString().slice(0, 10),
       tags: Array.isArray(data.tags)
         ? data.tags
         : typeof data.tags === 'string' && data.tags
@@ -127,7 +139,7 @@ export function getPost(slug: string): PostFull | undefined {
     slug,
     title: data.title || slug,
     excerpt: data.excerpt || content.split(/\n\n/)[0].slice(0, 180) + '…',
-    date: data.date || new Date().toISOString().slice(0, 10),
+    date: data.date ? dateOnly(data.date) : new Date().toISOString().slice(0, 10),
     tags: Array.isArray(data.tags)
       ? data.tags
       : typeof data.tags === 'string' && data.tags

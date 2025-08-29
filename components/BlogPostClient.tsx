@@ -52,13 +52,24 @@ export default function BlogPostClient({ post, prev, next, html }: { post: Post;
         <Divider sx={{ my: 3 }} />
 
         {html ? (
-          <Box sx={{ '& img': { width: '100%', borderRadius: 2, boxShadow: 1 }, '& p': { lineHeight: 1.8 } }} dangerouslySetInnerHTML={{ __html: html }} />
+          <Box
+            sx={{
+              '& img': { width: '100%', borderRadius: 2, boxShadow: 1 },
+              '& p': { lineHeight: 1.9, textAlign: 'justify', hyphens: 'auto', mb: 2 },
+              '& h2': { fontWeight: 600, mt: 3, mb: 1 },
+              '& h3': { fontWeight: 600, mt: 2.5, mb: 1 },
+              '& ul': { pl: 3, mb: 2 },
+              '& li': { lineHeight: 1.8 },
+              '& a': { color: 'primary.main', textDecoration: 'underline' },
+            }}
+            dangerouslySetInnerHTML={{ __html: html }}
+          />
         ) : (
           <Box sx={{ display: 'grid', gap: 2 }}>
             {(post.content ?? []).map((block, i) => {
               if (block.type === 'p') {
                 return (
-                  <Typography key={i} component="p" sx={{ lineHeight: 1.8 }}>
+                  <Typography key={i} component="p" sx={{ lineHeight: 1.9, textAlign: 'justify', hyphens: 'auto' }}>
                     {block.text}
                   </Typography>
                 );
