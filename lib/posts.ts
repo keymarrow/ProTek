@@ -78,10 +78,15 @@ export function markdownToHtml(md: string): string {
       .join('');
     return `\n<ul>${items}</ul>`;
   });
-  // paragraphs
+  // paragraphs: split on blank lines, and within paragraphs
+  // convert single newlines to <br /> so editor line breaks are preserved
   html = html
     .split(/\n{2,}/)
-    .map((blk) => (blk.match(/^<h\d|^<ul|^<img/) ? blk : `<p>${blk}</p>`))
+    .map((blk) =>
+      blk.match(/^<h\d|^<ul|^<img/)
+        ? blk
+        : `<p>${blk.replace(/\n/g, '<br />')}</p>`
+    )
     .join('\n');
   return html;
 }
