@@ -14,7 +14,8 @@
         var hasConfig = new URLSearchParams(location.search).has('config');
         if (isLocal && !hasConfig) {
           var url = new URL(location.href);
-          url.searchParams.set('config', '/cms/config.local.yml');
+          // Use JSON locally to avoid YAML being served as HTML by some servers
+          url.searchParams.set('config', '/cms/config.local.json');
           location.replace(url.toString());
         }
       })();
