@@ -7,17 +7,73 @@
     <link rel="preconnect" href="https://unpkg.com" />
   </head>
   <body>
-    <!-- Auto-use local config when running on localhost -->
+    <!-- Prepare inline config; actual init happens after CMS script loads -->
     <script>
       (function () {
-        var isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
-        var hasConfig = new URLSearchParams(location.search).has('config');
-        if (isLocal && !hasConfig) {
-          var url = new URL(location.href);
-          // Use JSON locally to avoid YAML being served as HTML by some servers
-          url.searchParams.set('config', '/cms/config.local.json');
-          location.replace(url.toString());
-        }
+        var params = new URLSearchParams(location.search);
+        var overridePath = params.get('config');
+        var env = params.get('env'); // 'local' to force test backend
+
+        var localConfig = {
+          backend: { name: 'test-repo' },
+          media_folder: 'public/uploads',
+          public_folder: '/uploads',
+          collections: [
+            {
+              name: 'posts',
+              label: 'Posts',
+              folder: 'content/posts',
+              create: true,
+              slug: '{{slug}}',
+              fields: [
+                { name: 'title', label: 'Title' },
+                { name: 'date', label: 'Date', widget: 'datetime' },
+                { name: 'tags', label: 'Tags', widget: 'list' },
+                { name: 'category', label: 'Category' },
+                { name: 'cover', label: 'Cover Image', widget: 'image', required: false },
+                { name: 'excerpt', label: 'Excerpt', widget: 'text', required: false },
+                { name: 'body', label: 'Body', widget: 'markdown' }
+              ]
+            }
+          ]
+        };
+
+        var prodConfig = {
+          backend: {
+            name: 'github',
+            repo: 'keymarrow/ProTek',
+            branch: 'main',
+            app_id: 1859205
+          },
+          media_folder: 'public/uploads',
+          public_folder: '/uploads',
+          roles: ['admin', 'editor'],
+          collections: [
+            {
+              name: 'posts',
+              label: 'Posts',
+              folder: 'content/posts',
+              create: true,
+              slug: '{{slug}}',
+              fields: [
+                { name: 'title', label: 'Title' },
+                { name: 'date', label: 'Date', widget: 'date' },
+                { name: 'tags', label: 'Tags', widget: 'list' },
+                { name: 'category', label: 'Category' },
+                { name: 'cover', label: 'Cover Image', widget: 'image', required: false },
+                { name: 'excerpt', label: 'Excerpt', widget: 'text', required: false },
+                { name: 'body', label: 'Body', widget: 'markdown' }
+              ]
+            }
+          ]
+        };
+
+        // Expose a getter so we can initialize after the CMS script loads
+        window.__getCmsConfig = function () {
+          if (overridePath) return overridePath;
+          var useLocal = env === 'local';
+          return useLocal ? localConfig : prodConfig; // default to prod everywhere
+        };
       })();
     </script>
     <!-- Netlify Identity widget (used only for Git Gateway) -->
@@ -27,54 +83,14 @@
     <!-- Decap CMS UI -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
+      // Initialize CMS only after library is loaded
       (function () {
-        const isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
-        const params = new URLSearchParams(location.search);
-        // Prefer JSON in production to avoid servers blocking .yml
-        const defaultConfig = isLocal ? '/cms/config.local.yml' : '/cms/config.github.json';
-        const configPath = params.get('config') || defaultConfig;
-        const noAuto = params.get('noauto') === '1';
-
-        function initCMS() {
-          CMS.init({ config: configPath });
-        }
-
-        // If using Git Gateway config in production, gate on Netlify Identity; otherwise init immediately
-        const isGitGatewayConfig = /\/cms\/config\.(yml|yaml)$/.test(configPath);
-
-        if (isLocal || !isGitGatewayConfig) {
-          // Local or non-Git-Gateway backends (e.g., GitHub App): no Identity gating
-          initCMS();
-          return;
-        }
-
-        // Production + Git Gateway flow
-        if (window.netlifyIdentity) {
-          window.netlifyIdentity.on('init', (user) => {
-            if (user) {
-              initCMS();
-            } else {
-              if (location.hash && location.hash.includes('recovery_token=')) {
-                window.netlifyIdentity.open('recovery');
-              } else if (!noAuto) {
-                // Prompt login to avoid waiting forever (unless disabled by ?noauto=1)
-                window.netlifyIdentity.open('login');
-              } else {
-                initCMS();
-              }
-            }
-          });
-          window.netlifyIdentity.on('login', () => {
-            initCMS();
-          });
-          window.netlifyIdentity.on('logout', () => {
-            // After logout, prompt login again
-            window.netlifyIdentity.open('login');
-          });
-          window.netlifyIdentity.init();
-        } else {
-          // Fallback: initialize CMS even if Identity didn't load (helps diagnose CDN blockers)
-          initCMS();
+        try {
+          var cfg = window.__getCmsConfig ? window.__getCmsConfig() : undefined;
+          if (!cfg) return;
+          CMS.init({ config: cfg });
+        } catch (e) {
+          console.error('CMS init error:', e);
         }
       })();
     </script>
