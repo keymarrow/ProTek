@@ -29,8 +29,8 @@
       (function () {
         const isLocal = /^(localhost|127\.0\.0\.1)/.test(location.hostname);
         const params = new URLSearchParams(location.search);
-        // Default to GitHub backend in production; local is handled by the preload script
-        const defaultConfig = isLocal ? '/cms/config.local.yml' : '/cms/config.github.yml';
+        // Prefer JSON in production to avoid servers blocking .yml
+        const defaultConfig = isLocal ? '/cms/config.local.yml' : '/cms/config.github.json';
         const configPath = params.get('config') || defaultConfig;
         const noAuto = params.get('noauto') === '1';
 
@@ -39,7 +39,7 @@
         }
 
         // If using Git Gateway config in production, gate on Netlify Identity; otherwise init immediately
-        const isGitGatewayConfig = /\/cms\/config\.yml$/.test(configPath);
+        const isGitGatewayConfig = /\/cms\/config\.(yml|yaml)$/.test(configPath);
 
         if (isLocal || !isGitGatewayConfig) {
           // Local or non-Git-Gateway backends (e.g., GitHub App): no Identity gating
@@ -79,4 +79,3 @@
     </script>
   </body>
   </html>
-
