@@ -34,6 +34,7 @@ export default function FAQ() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: { xs: 3, sm: 6 },
+        scrollMarginTop: '140px',
       }}
     >
       <Typography

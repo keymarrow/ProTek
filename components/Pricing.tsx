@@ -84,6 +84,7 @@ export default function Pricing() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: { xs: 3, sm: 6 },
+        scrollMarginTop: '140px',
       }}
     >
       <Box

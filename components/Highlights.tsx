@@ -55,6 +55,7 @@ export default function Highlights() {
         pb: { xs: 8, sm: 16 },
         color: 'white',
         bgcolor: 'grey.900',
+        scrollMarginTop: '140px',
       }}
     >
       <Container

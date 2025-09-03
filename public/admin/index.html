@@ -88,10 +88,31 @@
         try {
           var cfg = window.__getCmsConfig ? window.__getCmsConfig() : undefined;
           if (!cfg) return;
-          CMS.init({ config: cfg });
+          CMS.init({ config: cfg, load_config_file: false });
         } catch (e) {
           console.error('CMS init error:', e);
         }
+      })();
+    </script>
+    <script>
+      // Fallback: if CMS misses the OAuth message, persist token manually
+      (function () {
+        var PREFIX = 'authorization:github:success:';
+        window.addEventListener('message', function (e) {
+          try {
+            if (typeof e.data !== 'string' || e.data.indexOf(PREFIX) !== 0) return;
+            var raw = e.data.slice(PREFIX.length);
+            var payload = {};
+            try { payload = JSON.parse(raw || '{}'); } catch (_) {}
+            var token = payload && payload.token;
+            if (!token) return;
+            try { localStorage.setItem('netlify-cms-user', JSON.stringify({ token: token, backendName: 'github' })); } catch(_){}
+            try { localStorage.setItem('decap-cms-user', JSON.stringify({ token: token, backendName: 'github' })); } catch(_){}
+            location.reload();
+          } catch (err) {
+            console.error('custom auth handler error:', err);
+          }
+        }, false);
       })();
     </script>
   </body>

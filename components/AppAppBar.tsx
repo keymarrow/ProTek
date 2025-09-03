@@ -53,28 +53,53 @@ export default function AppAppBar() {
         <StyledToolbar variant="dense" disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', px: 0 }}>
             <Sitemark />
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 1.5 }}>
-              {/* <Button variant="text" color="info" size="small">
-                Features
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Testimonials
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Highlights
-              </Button>
-              <Button variant="text" color="info" size="small">
-                Pricing
-              </Button>
-              <Button variant="text" color="info" size="small" sx={{ minWidth: 0 }}>
-                FAQ
-              </Button> */}
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 1.5, gap: 1 }}>
               <Button
                 variant="text"
                 color="info"
                 size="small"
-                sx={{ minWidth: 0, fontSize: '1rem', fontWeight: 600 }}
-                component="a"
+                sx={{ fontSize: '0.95rem', fontWeight: 600 }}
+                component={NextLink}
+                href="/#features"
+              >
+                Process
+              </Button>
+              <Button
+                variant="text"
+                color="info"
+                size="small"
+                sx={{ fontSize: '0.95rem', fontWeight: 600 }}
+                component={NextLink}
+                href="/#highlights"
+              >
+                Apps
+              </Button>
+              <Button
+                variant="text"
+                color="info"
+                size="small"
+                sx={{ fontSize: '0.95rem', fontWeight: 600 }}
+                component={NextLink}
+                href="/#pricing"
+              >
+                Services
+              </Button>
+              <Button
+                variant="text"
+                color="info"
+                size="small"
+                sx={{ minWidth: 0, fontSize: '0.95rem', fontWeight: 600 }}
+                component={NextLink}
+                href="/#faq"
+              >
+                FAQ
+              </Button>
+              <Button
+                variant="text"
+                color="info"
+                size="small"
+                sx={{ minWidth: 0, fontSize: '1rem', fontWeight: 600, ml: 1 }}
+                component={NextLink}
                 href="/blog/"
               >
                 Blog
@@ -152,11 +177,18 @@ export default function AppAppBar() {
                   </IconButton>
                 </Box>
 
-                {/* <MenuItem>Features</MenuItem>
-                <MenuItem>Testimonials</MenuItem>
-                <MenuItem>Highlights</MenuItem>
-                <MenuItem>Pricing</MenuItem>
-                <MenuItem>FAQ</MenuItem> */}
+                <MenuItem component={NextLink} href="/#features" onClick={toggleDrawer(false)}>
+                  Process
+                </MenuItem>
+                <MenuItem component={NextLink} href="/#highlights" onClick={toggleDrawer(false)}>
+                  Apps
+                </MenuItem>
+                <MenuItem component={NextLink} href="/#pricing" onClick={toggleDrawer(false)}>
+                  Services
+                </MenuItem>
+                <MenuItem component={NextLink} href="/#faq" onClick={toggleDrawer(false)}>
+                  FAQ
+                </MenuItem>
                 <MenuItem component={NextLink} href="/blog/" onClick={toggleDrawer(false)}>
                   Blog
                 </MenuItem>

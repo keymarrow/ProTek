@@ -28,12 +28,14 @@ app.get('/api/auth', (req, res) => {
   url.searchParams.set('redirect_uri', redirectUri);
   url.searchParams.set('scope', SCOPE);
   if (state) url.searchParams.set('state', state);
+  console.log('[auth] redirect ->', url.toString());
   res.redirect(url.toString());
 });
 
 app.get('/api/auth/callback', async (req, res) => {
   const code = req.query.code;
   const state = req.query.state || '';
+  console.log('[callback] hit', { hasCode: !!code, state });
   if (!code) {
     return renderScript(res, 'error', { message: 'Missing code' });
   }
@@ -51,28 +53,39 @@ app.get('/api/auth/callback', async (req, res) => {
       })
     });
     const data = await tokenResp.json();
+    console.log('[callback] token resp', { status: tokenResp.status, hasToken: !!data.access_token, error: data.error });
     if (!data.access_token) {
-      return renderScript(res, 'error', { message: 'No access_token', data });
+      return renderScript(res, 'error', { message: 'No access_token', data, state });
     }
-    return renderScript(res, 'success', { token: data.access_token });
+    // Include state so Decap can match the auth response to the opener
+    return renderScript(res, 'success', { token: data.access_token, state });
   } catch (err) {
-    return renderScript(res, 'error', { message: err?.message || String(err) });
+    console.error('[callback] error', err);
+    return renderScript(res, 'error', { message: err?.message || String(err), state });
   }
 });
 
 function renderScript(res, type, payload) {
   const channel = type === 'success' ? 'authorization:github:success' : 'authorization:github:error';
-  const msg = `${channel}:${JSON.stringify(payload)}`;
-  const html = `<!doctype html><html><body><script>
+  const body = Object.assign({ provider: 'github' }, payload || {});
+  const msg = `${channel}:${JSON.stringify(body)}`;
+  const html = `<!doctype html><html><body>
+  <p style="font-family: sans-serif">${type === 'success' ? 'Login successful.' : 'Login failed.'} You can close this window.</p>
+  <pre style="white-space: pre-wrap; font-family: monospace">${escapeHtml(JSON.stringify(body))}</pre>
+  <script>
     (function(){
       try {
         window.opener && window.opener.postMessage(${JSON.stringify(msg)}, '*');
-        window.close();
+        setTimeout(function(){ window.close(); }, 500);
       } catch(e) { console.error(e); }
     })();
   </script></body></html>`;
   res.setHeader('Content-Type', 'text/html');
   res.send(html);
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 }
 
 app.listen(PORT, () => {
