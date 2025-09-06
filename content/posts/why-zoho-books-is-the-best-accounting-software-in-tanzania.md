@@ -90,7 +90,7 @@ Alerts for low inventory.
 
 Seamless reorder management.
 
-This prevents stockouts and helps you save money.
+**This prevents stockouts and helps you save money.**
 
 2. VFD Integration
 
