@@ -3,18 +3,6 @@ name: Deploy to CloudPanel
 on:
   push:
     branches: [ main ]
-    # Only rebuild when relevant files change
-    paths:
-      - 'content/**'
-      - 'src/**'
-      - 'components/**'
-      - 'lib/**'
-      - 'public/**'
-      - 'next.config.ts'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'BlogPage.tsx'
-      - 'MarketingPage.tsx'
   workflow_dispatch:
 
 permissions:
@@ -66,10 +54,11 @@ jobs:
           ssh_private_key: ${{ secrets.CP_KEY }}
           local_path: ./out/*
           remote_path: ${{ secrets.CP_DEST }}
-          # Remove files on server that no longer exist locally
-          delete: true
-          # Force SFTP only (no SSH commands)
-          sftp_only: true
+          # Remove files on server that no longer exist locally (correct input name)
+          delete_remote_files: true
+          # Allow use of ssh command to create remote_path if missing
+          sftp_only: false
+          sftpArgs: "-o StrictHostKeyChecking=no -o ServerAliveInterval=15 -o ServerAliveCountMax=3"
 
       - name: Inspect remote (optional)
         if: always()
