@@ -1,0 +1,67 @@
+name: Deploy to CloudPanel
+
+on:
+  push:
+    branches: [ main ]
+    # Only rebuild when relevant files change
+    paths:
+      - 'content/**'
+      - 'src/**'
+      - 'components/**'
+      - 'lib/**'
+      - 'public/**'
+      - 'next.config.ts'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'BlogPage.tsx'
+      - 'MarketingPage.tsx'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudpanel-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build static site
+        run: npm run build
+
+      - name: Verify export folder
+        run: |
+          if [ ! -d "out" ]; then
+            echo "out/ directory not found. Ensure next.config.ts sets output: 'export' or run next export." >&2
+            exit 1
+          fi
+          ls -la out | head -100
+
+      - name: Deploy to CloudPanel (SFTP)
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.5
+        with:
+          server: ${{ secrets.CP_HOST }}
+          port: ${{ secrets.CP_PORT }}
+          username: ${{ secrets.CP_USER }}
+          ssh_private_key: ${{ secrets.CP_KEY }}
+          local_path: ./out/*
+          remote_path: ${{ secrets.CP_DEST }}
+          # Remove files on server that no longer exist locally
+          delete: true
+          # Force SFTP only (no SSH commands)
+          sftp_only: true
+
