@@ -102,7 +102,7 @@ Even users with little accounting knowledge can use Zoho Books easily. From reco
 
 ![](/uploads/zb-dashboard.png "User-friendly Zoho Books interface—built for everyone.")
 
-The Bigger Zoho Advantage
+**The Bigger Zoho Advantage**
 
 Zoho Books isn’t just standalone software—it’s part of the larger Zoho ecosystem. Tanzanian businesses can integrate Zoho Books with:
 
