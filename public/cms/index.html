@@ -38,13 +38,13 @@
           ]
         };
 
+        // Production config using GitHub App backend (no custom /api/auth needed)
         var prodConfig = {
           backend: {
             name: 'github',
             repo: 'keymarrow/ProTek',
             branch: 'main',
-            base_url: 'https://protek.co.tz',
-            auth_endpoint: '/api/auth'
+            app_id: 1859205
           },
           media_folder: 'public/uploads',
           public_folder: '/uploads',
@@ -58,7 +58,7 @@
               slug: '{{slug}}',
               fields: [
                 { name: 'title', label: 'Title' },
-                { name: 'date', label: 'Date', widget: 'date' },
+                { name: 'date', label: 'Date', widget: 'datetime' },
                 { name: 'tags', label: 'Tags', widget: 'list' },
                 { name: 'category', label: 'Category' },
                 { name: 'cover', label: 'Cover Image', widget: 'image', required: false },
@@ -88,7 +88,12 @@
         try {
           var cfg = window.__getCmsConfig ? window.__getCmsConfig() : undefined;
           if (!cfg) return;
-          CMS.init({ config: cfg, load_config_file: false });
+          // If a config path string was provided via ?config=, let CMS fetch it
+          if (typeof cfg === 'string') {
+            CMS.init({ config: cfg, load_config_file: true });
+          } else {
+            CMS.init({ config: cfg, load_config_file: false });
+          }
         } catch (e) {
           console.error('CMS init error:', e);
         }
