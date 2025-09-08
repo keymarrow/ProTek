@@ -48,7 +48,6 @@
           },
           media_folder: 'public/uploads',
           public_folder: '/uploads',
-          roles: ['admin', 'editor'],
           collections: [
             {
               name: 'posts',
@@ -79,7 +78,11 @@
     </script>
     
     <!-- Tell Decap we will initialize manually -->
-    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script>
+      // Ensure Netlify Identity (if present globally) does not hijack auth
+      window.CMS_MANUAL_INIT = true;
+      try { delete window.netlifyIdentity; } catch (_) {}
+    </script>
     <!-- Decap CMS UI -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>

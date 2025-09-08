@@ -10,6 +10,7 @@
     <script>
       // Minimal inline config using GitHub App backend (no /api/auth)
       window.CMS_MANUAL_INIT = true;
+      try { delete window.netlifyIdentity; } catch (_) {}
       (function () {
         var cfg = {
           backend: {
@@ -56,4 +57,3 @@
     </script>
   </body>
   </html>
-

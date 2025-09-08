@@ -9,11 +9,6 @@ backend:
 media_folder: public/uploads
 public_folder: /uploads
 
-# Optional: enforce Identity roles if you proxy auth through Netlify Identity
-roles:
-  - admin
-  - editor
-
 collections:
   - name: posts
     label: Posts
@@ -22,7 +17,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { name: title, label: Title }
-      - { name: date, label: Date, widget: date }
+      - { name: date, label: Date, widget: datetime }
       - { name: tags, label: Tags, widget: list }
       - { name: category, label: Category }
       - { name: cover, label: Cover Image, widget: image, required: false }
