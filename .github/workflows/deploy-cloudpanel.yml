@@ -28,8 +28,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build static site
-        run: npm run build
+      - name: Build + export static site
+        run: |
+          npm run build
+          npm run export
 
       - name: Stamp build version
         run: |
