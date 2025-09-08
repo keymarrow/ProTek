@@ -54,6 +54,7 @@
       (function () {
         try {
           var cfg = window.__cms_cfg;
+          console.log('Decap: init with inline config only');
           CMS.init({ config: cfg, load_config_file: false });
         } catch (e) {
           console.error('CMS init error:', e);
