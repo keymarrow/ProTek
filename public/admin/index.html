@@ -12,10 +12,8 @@
       (function () {
         window.__cms_cfg = {
           backend: {
-            name: 'github',
-            repo: 'keymarrow/ProTek',
-            branch: 'main',
-            app_id: 1859205
+            name: 'git-gateway',
+            branch: 'main'
           },
           media_folder: 'public/uploads',
           public_folder: '/uploads',
@@ -41,11 +39,12 @@
       })();
     </script>
     
+    <!-- Netlify Identity widget (required for git-gateway) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <!-- Tell Decap we will initialize manually -->
     <script>
-      // Ensure Netlify Identity (if present globally) does not hijack auth
       window.CMS_MANUAL_INIT = true;
-      try { delete window.netlifyIdentity; } catch (_) {}
+      try { if (window.netlifyIdentity) window.netlifyIdentity.init(); } catch (_) {}
     </script>
     <!-- Decap CMS UI -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
