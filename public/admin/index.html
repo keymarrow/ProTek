@@ -12,7 +12,7 @@
       (function () {
         var params = new URLSearchParams(location.search);
         var overridePath = params.get('config');
-        var env = params.get('env'); // 'local' to force test backend
+        var env = params.get('env'); // 'local' to allow override + test backend
 
         var localConfig = {
           backend: { name: 'test-repo' },
@@ -70,8 +70,9 @@
 
         // Expose a getter so we can initialize after the CMS script loads
         window.__getCmsConfig = function () {
-          if (overridePath) return overridePath;
           var useLocal = env === 'local';
+          // Only allow ?config= override in local mode to avoid prod misloads
+          if (useLocal && overridePath) return overridePath;
           return useLocal ? localConfig : prodConfig; // default to prod everywhere
         };
       })();
