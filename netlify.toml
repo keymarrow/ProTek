@@ -3,5 +3,15 @@
   command = "npm run build"
   publish = "out"
 
+[[redirects]]
+  from = "/admin"
+  to = "/admin/"
+  status = 301
+
+[[redirects]]
+  from = "/cms"
+  to = "/cms/"
+  status = 301
+
 [build.environment]
   NODE_VERSION = "20"

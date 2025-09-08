@@ -25,32 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={plusJakarta.variable}>
-        <Script
-          src="https://identity.netlify.com/v1/netlify-identity-widget.js"
-          strategy="afterInteractive"
-        />
-        <Script id="netlify-identity-recovery" strategy="afterInteractive">
-          {`
-            (function () {
-              function setup() {
-                var ni = (window as any).netlifyIdentity;
-                if (!ni) return;
-                ni.on('init', function(user){
-                  var hash = window.location.hash || '';
-                  if (!user && hash.indexOf('recovery_token=') !== -1) {
-                    ni.open('recovery');
-                  }
-                });
-                ni.init();
-              }
-              if (document.readyState !== 'loading') setup();
-              else window.addEventListener('DOMContentLoaded', setup);
-              var iv = setInterval(function(){
-                if ((window as any).netlifyIdentity) { clearInterval(iv); setup(); }
-              }, 500);
-            })();
-          `}
-        </Script>
+        {/* Netlify Identity script removed to avoid interfering with Decap CMS auth */}
         {children}
       </body>
     </html>
