@@ -1,6 +1,6 @@
 [build]
-  # Build Next.js and export static site to out/
-  command = "npm run build && npm run export"
+  # Next.js 13+ with `output: 'export'` exports on build
+  command = "npm run build"
   publish = "out"
 
 [build.environment]
