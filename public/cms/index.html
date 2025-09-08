@@ -7,39 +7,10 @@
     <link rel="preconnect" href="https://unpkg.com" />
   </head>
   <body>
-    <!-- Prepare inline config; actual init happens after CMS script loads -->
+    <!-- Inline config to avoid file merge issues -->
     <script>
       (function () {
-        var params = new URLSearchParams(location.search);
-        var overridePath = params.get('config');
-        var env = params.get('env'); // 'local' to allow override + test backend
-
-        var localConfig = {
-          backend: { name: 'test-repo' },
-          media_folder: 'public/uploads',
-          public_folder: '/uploads',
-          collections: [
-            {
-              name: 'posts',
-              label: 'Posts',
-              folder: 'content/posts',
-              create: true,
-              slug: '{{slug}}',
-              fields: [
-                { name: 'title', label: 'Title' },
-                { name: 'date', label: 'Date', widget: 'datetime' },
-                { name: 'tags', label: 'Tags', widget: 'list' },
-                { name: 'category', label: 'Category' },
-                { name: 'cover', label: 'Cover Image', widget: 'image', required: false },
-                { name: 'excerpt', label: 'Excerpt', widget: 'text', required: false },
-                { name: 'body', label: 'Body', widget: 'markdown' }
-              ]
-            }
-          ]
-        };
-
-        // Production config using GitHub App backend (no custom /api/auth needed)
-        var prodConfig = {
+        window.__cms_cfg = {
           backend: {
             name: 'github',
             repo: 'keymarrow/ProTek',
@@ -67,14 +38,6 @@
             }
           ]
         };
-
-        // Expose a getter so we can initialize after the CMS script loads
-        window.__getCmsConfig = function () {
-          var useLocal = env === 'local';
-          // Only allow ?config= override in local mode to avoid prod misloads
-          if (useLocal && overridePath) return overridePath;
-          return useLocal ? localConfig : prodConfig; // default to prod everywhere
-        };
       })();
     </script>
     
@@ -87,17 +50,11 @@
     <!-- Decap CMS UI -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
-      // Initialize CMS only after library is loaded
+      // Initialize CMS with inline config only
       (function () {
         try {
-          var cfg = window.__getCmsConfig ? window.__getCmsConfig() : undefined;
-          if (!cfg) return;
-          // If a config path string was provided via ?config=, let CMS fetch it
-          if (typeof cfg === 'string') {
-            CMS.init({ config: cfg, load_config_file: true });
-          } else {
-            CMS.init({ config: cfg, load_config_file: false });
-          }
+          var cfg = (window as any).__cms_cfg;
+          CMS.init({ config: cfg, load_config_file: false });
         } catch (e) {
           console.error('CMS init error:', e);
         }
