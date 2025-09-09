@@ -49,11 +49,11 @@ Ongoing local support for peace of mind.
 
 **Features That Make Zoho Books the Best in Tanzania**
 
-1. Multi-Currency Support
+1. **Multi-Currency Support**
 
 Tanzanian businesses often trade internationally. Zoho Books supports Tanzanian Shilling (TZS) along with USD, Euro, and more. Automatic currency conversion ensures accurate reporting.
 
-2. Tax Compliance with Ease
+2. **Tax Compliance with Ease**
 
 Staying compliant with TRA VAT rules can be stressful. Zoho Books simplifies this by:
 
@@ -125,12 +125,12 @@ Why Zoho Books is the Best Accounting Software in Tanzania
 
 Let’s recap why Zoho Books is the top choice:
 
-* TRA tax compliance made easy.
-* Multi-currency support for global trade.
-* Professional invoicing that strengthens brand identity.
-* Inventory and VFD integration for retailers.
-* Local support from Proteknologies, a Zoho Partner in Tanzania.
-* Seamless integration with the Zoho ecosystem.
+1. TRA tax compliance made easy.
+2. Multi-currency support for global trade.
+3. Professional invoicing that strengthens brand identity.
+4. Inventory and VFD integration for retailers.
+5. Local support from Proteknologies, a Zoho Partner in Tanzania.
+6. Seamless integration with the Zoho ecosystem.
 
 With Zoho Books, Tanzanian businesses save time, reduce errors, and gain financial clarity.
 
