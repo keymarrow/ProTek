@@ -19,6 +19,8 @@ import Alert from '@mui/material/Alert';
 import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TwitterIcon from '@mui/icons-material/X';
 
 export default function ContactPage() {
   const [submitting, setSubmitting] = React.useState(false);
@@ -219,6 +221,18 @@ export default function ContactPage() {
                   <LinkedInIcon color="primary" />
                   <Link href="https://www.linkedin.com/company/proteknologies" target="_blank" rel="noopener noreferrer">
                     linkedin
+                  </Link>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <InstagramIcon color="primary" />
+                  <Link href="https://instagram.com/proteknologies" target="_blank" rel="noopener noreferrer">
+                    instagram
+                  </Link>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <TwitterIcon color="primary" />
+                  <Link href="https://x.com/proteknologies" target="_blank" rel="noopener noreferrer">
+                    x
                   </Link>
                 </Stack>
               </Stack>
