@@ -12,6 +12,9 @@ import Features from './components/Features';
 // import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import NextLink from 'next/link';
 
 export default function MarketingPage() {
   return (
@@ -28,6 +31,15 @@ export default function MarketingPage() {
         <Divider />
         <Pricing />
         <Divider />
+        {/* Simple internal links to help sitelinks */}
+        <Box sx={{ textAlign: 'center', py: 4 }}>
+          <Link component={NextLink} href="/blog/" sx={{ mr: 2 }}>
+            Read our Blog
+          </Link>
+          <Link component={NextLink} href="/contact">
+            Contact Us
+          </Link>
+        </Box>
         <FAQ />
         <Divider />
         <Footer />

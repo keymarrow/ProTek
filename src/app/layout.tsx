@@ -26,6 +26,30 @@ export default function RootLayout({
     <html lang="en">
       <body className={plusJakarta.variable}>
         {/* Netlify Identity script removed to avoid interfering with Decap CMS auth */}
+        <Script id="ld-website" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            url: 'https://protek.co.tz/',
+            name: 'Proteknologies Limited',
+            alternateName: 'ProTek',
+          })}
+        </Script>
+        <Script id="ld-organization" type="application/ld+json" strategy="afterInteractive">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Proteknologies Limited',
+            alternateName: 'ProTek',
+            url: 'https://protek.co.tz/',
+            logo: 'https://protek.co.tz/ProTek.svg',
+            sameAs: [
+              'https://www.linkedin.com/company/proteknologies',
+              'https://x.com/proteknologies',
+              'https://instagram.com/proteknologies',
+            ],
+          })}
+        </Script>
         {children}
       </body>
     </html>

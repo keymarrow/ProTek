@@ -13,6 +13,7 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import TwitterIcon from '@mui/icons-material/X';
 import SitemarkIcon from './SitemarkIcon';
 import InstagramIcon from '@mui/icons-material/Instagram';
+import NextLink from 'next/link';
 
 export const metadata = {
   robots: {
@@ -107,23 +108,11 @@ export default function Footer() {
           }}
         >
           <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
-            Products
+            Company
           </Typography>
-          <Link href="https://zoho.com/one" target="_blank" rel="noopener noreferrer">
-            ZOHO One
-          </Link>
-          <Link href="https://zoho.com/crm" target="_blank" rel="noopener noreferrer">
-            ZOHO CRM
-          </Link>
-          <Link href="https://zoho.com/books" target="_blank" rel="noopener noreferrer">
-            ZOHO Books
-          </Link>
-          <Link href="https://zoho.com/inventory" target="_blank" rel="noopener noreferrer">
-            ZOHO Inventory
-          </Link>
-          <Link href="https://zoho.com/projects" target="_blank" rel="noopener noreferrer">
-            Zoho Projects
-          </Link>
+          <Link component={NextLink} href="/" >Home</Link>
+          <Link component={NextLink} href="/blog/">Blog</Link>
+          <Link component={NextLink} href="/contact">Contact Us</Link>
         </Box>
         <Box
           sx={{
