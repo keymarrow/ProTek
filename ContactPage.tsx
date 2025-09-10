@@ -162,7 +162,7 @@ export default function ContactPage() {
               <Stack spacing={2.5} divider={<Divider flexItem />}>
                 <Box>
                   <Typography variant="h5" sx={{ fontWeight: 700 }} gutterBottom>
-                    12+
+                    2+
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Years <Link href="#" underline="hover">Experience</Link>
@@ -170,7 +170,7 @@ export default function ContactPage() {
                 </Box>
                 <Box>
                   <Typography variant="h5" sx={{ fontWeight: 700 }} gutterBottom>
-                    280+
+                    10+
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     Projects <Link href="#" underline="hover">Delivered Around the World</Link>
