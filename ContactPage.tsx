@@ -232,7 +232,7 @@ export default function ContactPage() {
                 <Stack direction="row" spacing={1} alignItems="center">
                   <TwitterIcon color="primary" />
                   <Link href="https://x.com/proteknologies" target="_blank" rel="noopener noreferrer">
-                    x
+                    twitter
                   </Link>
                 </Stack>
               </Stack>
