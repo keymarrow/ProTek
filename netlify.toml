@@ -4,6 +4,11 @@
   publish = "out"
 
 [[redirects]]
+  from = "/blog"
+  to = "/blog/"
+  status = 301
+
+[[redirects]]
   from = "/admin"
   to = "/admin/"
   status = 301

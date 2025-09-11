@@ -5,7 +5,10 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Blog — Proteknologies Limited',
-  description: 'Articles and guides on Zoho, automation, and growing your business.',
+  description: 'Let learn Zoho In Tanzania way. Tips, tricks and updates.',
+  alternates: {
+    canonical: 'https://protek.co.tz/blog/',
+  },
 };
 
 export default function Blog() {
